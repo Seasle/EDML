@@ -1,9 +1,10 @@
 #SingleInstance, Force
 SendMode, Event
-SetKeyDelay, 10, 5
+SetKeyDelay, 25, 10
 SetWorkingDir, %A_ScriptDir%
 
 global Enabled := True
+global Active := False
 global MaxIterations := 100
 
 ToggleEnabled() {
@@ -15,9 +16,10 @@ Clamp(MinValue, MaxValue, CurrentValue) {
 }
 
 ApplyEnergy(Sys = 0, Eng = 0, Wep = 0) {
-    If (!Enabled) {
+    If (!Enabled Or Active) {
         Return
     }
+    Active := True
 
     Total := Sys + Eng + Wep
     If (Total != 6) {
@@ -116,5 +118,6 @@ ApplyEnergy(Sys = 0, Eng = 0, Wep = 0) {
         }
 
     Done:
+        Active := False
         Return
 }
